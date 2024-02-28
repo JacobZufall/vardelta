@@ -9,13 +9,23 @@ class Delta:
         Creates a value that contains a history of itself to easily keep track of changes.
         :param value: The initial value.
         """
-        self.value: list[float] = []
+        self.value: float = value
+        self.values: list[float] = []
+        self.change: float = 0.0
         self.changes: list[float] = []
 
         self.change_value(value)
 
+    def refresh_values(self) -> None:
+        self.value = self.values[-1]
+
+        if len(self.changes) == 0:
+            self.change = 0.0
+        else:
+            self.change = self.changes[-1]
+
     @staticmethod
-    def _convert_to_key(value: int):
+    def _convert_to_key(value: int) -> int:
         """
         For ease of use, the functions in this class take "0" to return the most recent value, or the last index of
         self.value. However, since self.value is a list, we need to covert this to the corresponding index. In this
@@ -34,7 +44,7 @@ class Delta:
         :return: The corresponding value.
         """
         try:
-            return self.value[self._convert_to_key(values_ago)]
+            return self.values[self._convert_to_key(values_ago)]
         except IndexError:
             pass
 
@@ -55,12 +65,14 @@ class Delta:
         :param new_value: The value to update to.
         :return: The new value (the parameter itself).
         """
-        self.value.append(new_value)
-        self.changes.append(self.calc_change())
+        self.values.append(new_value)
+
+        if self.calc_change() != "IndexError":
+            self.changes.append(self.calc_change())
 
         return new_value
 
-    def calc_change(self, first_val: int = 0, second_val: int = 1) -> float:
+    def calc_change(self, first_val: int = 0, second_val: int = 1) -> float | str:
         """
         Calculate the change between two historic values.
         :param first_val: How many values ago the first value is.
@@ -68,6 +80,7 @@ class Delta:
         :return: The change between the two values.
         """
         try:
-            return self.value[self._convert_to_key(first_val)] - self.value[self._convert_to_key(second_val)]
+            return self.values[self._convert_to_key(first_val)] - self.values[self._convert_to_key(second_val)]
         except IndexError:
-            pass
+            # I'm not sure if there is a better way to do this. I just don't want self.changes to populate with None.
+            return "IndexError"

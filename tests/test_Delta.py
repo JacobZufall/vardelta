@@ -1,5 +1,7 @@
 """
 test_Delta.py
+
+Currently, these tests are really simple. They may be expanded on later, if needed.
 """
 
 from src.vardelta.Delta import Delta

@@ -2,7 +2,7 @@
 Delta.py
 """
 
-from typing import Final
+from typing import Final, override
 
 
 class Delta:
@@ -22,12 +22,14 @@ class Delta:
 
         self.change_value(value)
 
+    @override
     def __str__(self):
         return (f"---{self.__class__.__name__} Object---\n"
                 f"Current value: {self.value}\n"
                 f"Most recent change: {self.change}\n"
                 f"History size: {self.limit}")
 
+    @override
     def __repr__(self):
         return f"{self.__class__.__name__}: {self.__dict__}"
 

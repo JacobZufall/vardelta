@@ -8,19 +8,34 @@ from typing import Final
 
 
 class Delta:
-    def __init__(self, value: float) -> None:
+    def __init__(self, value: float, limit: int = 25) -> None:
         """
         Creates a value that contains a history of itself to easily keep track of changes.
         :param value: The initial value.
+        :param limit: How many recent values are stored.
         """
         self.INIT_VALUE: Final[float] = value
 
-        self.value: float = value
+        self.value: float = float(value)
         self.values: list[float] = []
         self.change: float = 0.0
         self.changes: list[float] = []
+        self.limit: int = limit
 
         self.change_value(value)
+
+    def __str__(self):
+        return (f"---{self.__class__.__name__} Object---\n"
+                f"Current value: {self.value}\n"
+                f"Most recent change: {self.change}\n"
+                f"History size: {self.limit}")
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}: {self.__dict__}"
+
+    def enforce_length(self, history: list[float]) -> None:
+        while len(history) > self.limit:
+            history.pop(0)
 
     def refresh_values(self) -> None:
         self.value = self.values[-1]
@@ -29,6 +44,9 @@ class Delta:
             self.change = 0.0
         else:
             self.change = self.changes[-1]
+
+        self.enforce_length(self.values)
+        self.enforce_length(self.changes)
 
     def reset(self) -> None:
         """
@@ -91,6 +109,7 @@ class Delta:
         if self.calc_change() != "IndexError":
             self.changes.append(self.calc_change())
 
+        self.refresh_values()
         return new_value
 
     def calc_change(self, first_val: int = 0, second_val: int = 1) -> float | str:

@@ -4,6 +4,8 @@ Delta.py
 TODO: Add reset method to completely wipe the variable's history.
 """
 
+from typing import Final
+
 
 class Delta:
     def __init__(self, value: float) -> None:
@@ -11,6 +13,8 @@ class Delta:
         Creates a value that contains a history of itself to easily keep track of changes.
         :param value: The initial value.
         """
+        self.INIT_VALUE: Final[float] = value
+
         self.value: float = value
         self.values: list[float] = []
         self.change: float = 0.0
@@ -25,6 +29,18 @@ class Delta:
             self.change = 0.0
         else:
             self.change = self.changes[-1]
+
+    def reset(self) -> None:
+        """
+        Resets the object to the state when it was first initialized. This method wipes history as well.
+        :return: Nothing.
+        """
+        self.value = self.INIT_VALUE
+        self.values = []
+        self.change = 0.0
+        self.changes = []
+
+        self.change_value(self.INIT_VALUE)
 
     @staticmethod
     def _convert_to_key(value: int) -> int:

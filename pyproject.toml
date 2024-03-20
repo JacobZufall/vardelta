@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vardelta_jacobzufall"
+version = "1.0"
+authors = [
+    {name="Jacob Zufall", email="jacobzufall@gmail.com"}
+]
+description = "A package used to track the history of a variable."
+readme = "README.md"
+requires-python= ">3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Apporved :: GPL-2.0 license",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/JacobZufall/vardelta"
+issues = "https://github.com/JacobZufall/vardelta/issues"

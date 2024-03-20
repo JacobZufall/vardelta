@@ -32,6 +32,8 @@ class Delta:
         case, 0 should be -1 since they want the most recent value added, or the current value. 1 is the second most
         recent value, so it would have a key of -2. This function also supports negative numbers. So if the user wants
         the first number, they can do -1.
+
+        This function should only be used to handle arguments and not used to call on a table yourself.
         :param value: The value specified by the user.
         :return: The corresponding index.
         """
@@ -50,9 +52,10 @@ class Delta:
 
     def get_change(self, changes_ago: int = 0) -> float:
         """
-
-        :param changes_ago:
-        :return:
+        Retrieve a specific change x amount of changes ago.
+        :param changes_ago: How many changes ago to retrieve. 0 is the most recent change, or the change between the
+        current number [0] and the previous number [1].
+        :return: The amount the value was changed.
         """
         try:
             return self.changes[self._convert_to_key(changes_ago)]

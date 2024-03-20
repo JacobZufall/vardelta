@@ -1,7 +1,5 @@
 """
 Delta.py
-
-TODO: Add reset method to completely wipe the variable's history.
 """
 
 from typing import Final

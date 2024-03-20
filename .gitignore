@@ -1,0 +1,9 @@
+# Copied from .gitignore in /.idea/.
+/shelf/
+/workspace.xml
+/httpRequests/
+/dataSources/
+/dataSources.local.xml
+
+# PyCharm specific ignores.
+/.idea/
